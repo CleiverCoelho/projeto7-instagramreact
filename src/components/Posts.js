@@ -51,7 +51,7 @@ function Post (props){
     }
 
     return (
-        <div class="post">
+        <div data-test="post" class="post">
             <div class="topo">
                 <div class="usuario">
                     <img src={props.perfil} alt={props.usuario}/>
@@ -83,7 +83,7 @@ function Post (props){
                 <div class="curtidas">
                     <img src="assets/img/respondeai.svg" alt="respondeai"/>
                     <div class="texto">
-                        Curtido por <strong>respondeai</strong> e <strong>outras {qtdCurtidas} pessoas</strong>
+                        Curtido por <strong>respondeai</strong> e <strong>outras <span data-test="likes-number">{qtdCurtidas}</span> pessoas</strong>
                     </div>
                 </div>
 
