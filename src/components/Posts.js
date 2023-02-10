@@ -11,9 +11,9 @@ export default function Posts(){
         
             {postsUsuarios.map( (post) => {
                 return (
-                    <Post perfil={post.perfil} usuario={post.usuario} imagem={post.imagem}/>
+                    <Post perfil={post.perfil} usuario={post.usuario} imagem={post.imagem} />
                 )
-            } )};
+            } )}
         </div>
     );
 }
@@ -24,19 +24,30 @@ function Post (props){
     const [like, setLike] = React.useState("heart-outline");
     const [likedColor, setLikedColor] = React.useState("");
 
+    const qtdCurtidasInicial = Math.floor(Math.random() * 10000);
+    const [qtdCurtidas, setQtdCurtidas] = React.useState(qtdCurtidasInicial);
+
     function clickLike(){
-        if(like == "heart"){
+        if(like === "heart"){
             setLike("heart-outline");
             setLikedColor("");
+            setQtdCurtidas(qtdCurtidas - 1);
         }else{
             setLike("heart");
             setLikedColor("red")
+            setQtdCurtidas(qtdCurtidas + 1);
         }
     }
 
     function clickLikeImg(){
-        setLike("heart");
-        setLikedColor("red");
+        // a imagem ja foi curtida
+        if(like === "heart"){
+            return null;
+        }else{
+            setLike("heart");
+            setLikedColor("red");
+            setQtdCurtidas(qtdCurtidas + 1);
+        }
     }
 
     return (
@@ -52,27 +63,27 @@ function Post (props){
             </div>
 
             <div class="conteudo">
-                <img onDoubleClick={clickLikeImg} src={props.imagem} alt={props.usuario}/>
+                <img data-test="post-image" onDoubleClick={clickLikeImg} src={props.imagem} alt={props.usuario}/>
             </div>
 
             <div class="fundo">
             
                 <div class="acoes">
                     <div>
-                        <ion-icon class={likedColor} onClick={clickLike} name={like}></ion-icon>
+                        <ion-icon data-test="like-post" class={likedColor} onClick={clickLike} name={like}></ion-icon>
                         <ion-icon name="chatbubble-outline"></ion-icon>
                         <ion-icon name="paper-plane-outline"></ion-icon>
                     </div>
                     <div>
                         {/* utilizando mudança de outline pra sinalizar item salvo */}
-                        <ion-icon onClick={() => setSalvo(salvo == "bookmark" ? "bookmark-outline" : "bookmark")} name={salvo}></ion-icon>
+                        <ion-icon data-test="save-post" onClick={() => setSalvo(salvo === "bookmark" ? "bookmark-outline" : "bookmark")} name={salvo}></ion-icon>
                     </div>
                 </div>
 
                 <div class="curtidas">
                     <img src="assets/img/respondeai.svg" alt="respondeai"/>
                     <div class="texto">
-                        Curtido por <strong>respondeai</strong> e <strong>outras <span>101.523</span> pessoas</strong>
+                        Curtido por <strong>respondeai</strong> e <strong>outras {qtdCurtidas} pessoas</strong>
                     </div>
                 </div>
 
